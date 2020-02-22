@@ -4,9 +4,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def index(request):
-    abt_link = "Jai Hind Doston ! Go to the" + '<a href="/rango/about"> Rango | About</a>' + ' page .'
-    return HttpResponse(abt_link)
+    # Construct a dictionary to pass to the template engine as its context.
+    # Note the key boldmessage matches to {{ boldmessage }} in the template!
+    context_dict = {'boldmessage': 'Jai Hind Doston !'}
+    # Return a rendered response to send to the client.
+    # We make use of the shortcut function to make our lives easier.
+    # Note that the first parameter is the template we wish to use.
+    return render(request, 'rango/index.html', context=context_dict) 
 
 def about(request):
-    index_link = "Bhau says here is the about page ! Go back to " + '<a href="/rango"> Rango | Home</a>'
-    return HttpResponse(index_link)
+    return render(request, 'rango/about.html')

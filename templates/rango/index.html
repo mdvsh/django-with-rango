@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html>
+
+<head>
+    <title>Home | Rango</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">
+</head>
+
+<body>
+    <h2>Rango in Tango-w-Django</h2>
+    <hr>
+    <h3>Madhav says...</h3>
+    <div class="container">
+        <div class="row">
+            <div class="one-half column">
+                <h4>{{ boldmessage }} <br /> </h4>
+                <a class="button button-primary" href="/rango/about">Rango | About</a>
+            </div>
+            <div class="one-half column">
+                <img class="u-max-full-width" src="{% static 'img/jdh.jpg' %}">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
