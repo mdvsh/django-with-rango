@@ -1,0 +1,6 @@
+{
+    "python.linting.pylintEnabled": true,
+    "python.pythonPath": "/home/pseudocodenerd/anaconda3/envs/rango/bin/python",
+    "python.linting.banditEnabled": false,
+    "python.linting.pycodestyleEnabled": false
+}
