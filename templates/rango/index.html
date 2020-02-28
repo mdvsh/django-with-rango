@@ -11,17 +11,40 @@
 </head>
 
 <body>
-    <h2>Rango in Tango-w-Django</h2>
+    <h2>Rango says...</h2>
     <hr>
-    <h3>Madhav says...</h3>
     <div class="container">
         <div class="row">
-            <div class="one-half column">
+            <div class='one-half column'>
                 <h4>{{ boldmessage }} <br /> </h4>
-                <a class="button button-primary" href="/rango/about">Rango | About</a>
+                <a class="button" href="/rango/about">Rango | About</a>
             </div>
-            <div class="one-half column">
-                <img class="u-max-full-width" src="{% static 'img/jdh.jpg' %}">
+            <div class = 'one-half column'>
+                {% if categories %}
+                <h4>Most Liked Categories</h4>
+                    <ol>
+                        {% for category in categories %}
+                        <li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
+                            | {{ category.likes }} Likes.
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    <br />
+                {% else %}
+                    <strong>There are no categories present.</strong>
+                {% endif %}
+
+                {% if pages %}
+                <h4> Most Viewed Pages </h4>
+                    <ol>
+                        {% for page in pages %}
+                        <li><a href="{{ page.url }}">{{ page.title }}</a>
+                            | {{ page.views }} Views.</li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                    <strong> There are no pages present. </strong>
+                {% endif %}
             </div>
         </div>
     </div>

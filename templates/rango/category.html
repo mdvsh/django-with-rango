@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>Category | Rango</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">    
+    </head>
+
+<body>
+    {% if category %}
+    <center><h2>{{ category.name }}</h2></center>
+    <hr>
+    <div class="container">
+        {% if pages %}
+        <table class="u-full-width">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for page in pages %}
+                <tr>
+                    <td>{{ page.title }}</td>
+                    <td><a class="button button-primary" href="{{ page.url }}">Visit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <strong> No pages currently in category. </strong>
+        {% endif %}
+    </div>
+    {% else %}
+        <strong> The specified category doesn't exist. </strong>
+    {% endif %}
+
+<center><a class="button" href="/rango">Go Back.</a></center>
+
+</body>
+
+</html>
+
+
