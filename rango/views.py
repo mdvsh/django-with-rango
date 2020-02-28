@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from rango.models import Category, Page
-# Create your views here.
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from rango.forms import CategoryForm
+from rango.forms import PageForm
+from django.urls import reverse
 
 def index(request):
     # Query the database for a list of ALL categories currently stored.
@@ -16,13 +19,13 @@ def index(request):
     the expression Category.objects.order_by('-likes')[:5] queries the Category
     model to retrieve the top five categories. the hyphen order it in descending
     '''
-    context_dixt = {}
-    context_dixt['boldmessage'] = 'Desh ke gaddaron ko...\n Goli maaron saalon ko !!!'
-    context_dixt['categories'] = category_list
-    context_dixt['pages'] = pages_list
-    
+    context_dict = {}
+    context_dict['boldmessage'] = 'Desh ke gaddaron ko...\n Goli maaron saalon ko !!!'
+    context_dict['categories'] = category_list
+    context_dict['pages'] = pages_list
+
     # Render request and send it to the home-page.
-    return render(request, 'rango/index.html', context = context_dixt)
+    return render(request, 'rango/index.html', context = context_dict)
 
 def about(request):
     return render(request, 'rango/about.html')
@@ -55,3 +58,53 @@ def show_category(request, category_name_slug):
     
     # render response and return it to homepage
     return render(request, 'rango/category.html', context=context_dict)
+
+def add_category(request):
+    form = CategoryForm()
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+
+        if form.is_valid():
+            form.save(commit=True)
+            # once form saved, redirect user back to home page.
+            return redirect('/')
+        else:
+            print(form.errors)
+            
+    return render(request, 'rango/add_category.html', {'form' : form})
+
+
+'''
+we need to redirect the user to the show_category() 
+view once the page has been created. This involves the use of the redirect() and
+reverse() helper functions to redirect the user and to lookup the appropriate URL,
+respectively.
+'''
+def add_page(request, category_name_slug):
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+    except:
+        category = None
+
+    if category is None:
+        return redirect('/rango/')
+
+    form = PageForm()
+
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+
+        if form.is_valid():
+            if category:
+                page = form.save(commit=False)
+                page.category = category
+                page.views = 0
+                page.save()
+
+                return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
+        else:
+            print(form.errors)  
+    
+    context_dict = {'form': form, 'category': category}
+    return render(request, 'rango/add_page.html', context=context_dict)

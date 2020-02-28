@@ -32,14 +32,17 @@
             </tbody>
         </table>
         {% else %}
-            <strong> No pages currently in category. </strong>
+            <strong> No pages currently in category. </strong><br />
         {% endif %}
+        <center><a class="button" href="/rango/category/{{ category.slug }}/add_page/">Add Page.</a>
+        <a class="button" href="/rango">Go Back.</a>
+        </center>
     </div>
     {% else %}
-        <strong> The specified category doesn't exist. </strong>
+        <strong> The specified category doesn't exist. </strong><br />
     {% endif %}
 
-<center><a class="button" href="/rango">Go Back.</a></center>
+
 
 </body>
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>Category | Rango</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">    
+    </head>
+
+<body>
+    <h1>Add a Category</h1>
+    <hr>
+
+    <form id="category_form" method="POST" action="/rango/add_category/">
+        <div class="row">
+            <div class="6 columns">
+                <label>Enter Category Name : </label>
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                    {{ fields.errors }}
+                    {{ fields.help_text }}
+                    {{ field }}
+                {% endfor %}
+                <input class="button-primary" type="submit" name="submit" value="Create Category">
+            </div>
+        </div>
+    </form>
+
+<center><a class="button" href="/rango">Go Back.</a></center>
+
+</body>
+
+</html>
+
+

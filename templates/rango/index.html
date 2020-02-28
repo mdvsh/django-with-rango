@@ -17,7 +17,8 @@
         <div class="row">
             <div class='one-half column'>
                 <h4>{{ boldmessage }} <br /> </h4>
-                <a class="button" href="/rango/about">Rango | About</a>
+                <a class="button" href="/rango/add_category/">Add Category</a>     
+                <a class="button" href="/rango/about">About | Rango</a> <br /><br />
             </div>
             <div class = 'one-half column'>
                 {% if categories %}
@@ -29,11 +30,10 @@
                         </li>
                         {% endfor %}
                     </ol>
-                    <br />
                 {% else %}
                     <strong>There are no categories present.</strong>
                 {% endif %}
-
+                <hr>
                 {% if pages %}
                 <h4> Most Viewed Pages </h4>
                     <ol>
