@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-
+{% extends 'rango/base.html' %}
 {% load staticfiles %}
 
-<html>
-    <head>
-        <title>Category | Rango</title>
-        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">    
-    </head>
+{% block title_block %}
+    {% if category %}
+        {{ category.name }}
+    {% else %}
+        Add Page 
+    {% endif %}
+{% endblock %}
 
-<body>
-    <h1>Add a Category</h1>
+{% block body_block %}
+    <h3>Add a Category</h3>
     <hr>
 
     <form id="category_form" method="POST" action="/rango/add_category/">
@@ -32,9 +32,5 @@
     </form>
 
 <center><a class="button" href="/rango">Go Back.</a></center>
-
-</body>
-
-</html>
-
+{% endblock %}
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load rango_template_tags %}
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" />
+        <title>
+            {% block title_block %}
+            {% endblock %} | Rango
+        </title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">    
+    </head>
+    <body>
+        <!--<div class="u-pull-left">
+            {% block sidebar_block %}
+                {% get_category_list %}
+            {% endblock %}
+        </div>-->
+
+        <div>
+        <!-- Page specific content goes here -->
+        {% block body_block %}
+        {% endblock %}
+        </div>
+        <br />
+        <hr />
+        <div class="container">
+            <div class="row">
+                <div class='one-third column'>
+                    <a href="{% url 'rango:index' %}">Index | Rango</a>
+                </div>    
+                <div class='one-third column'>
+                    <a href="{% url 'rango:add_category' %}">Add Category | Rango</a>
+                </div> 
+                <div class='one-third column'>
+                    <a href="{% url 'rango:about' %}">About | Rango</a>
+                </div> 
+            </div>
+        </div>
+    </body>
+</html>

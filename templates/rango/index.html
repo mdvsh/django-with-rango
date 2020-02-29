@@ -1,31 +1,33 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
 
 {% load staticfiles %}
 
-<html>
+{% block title_block %}
+    {% if category %}
+        {{ category.name }}
+    {% else %}
+        Homepage 
+    {% endif %}
+{% endblock %}
 
-<head>
-    <title>Home | Rango</title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">
-</head>
-
-<body>
-    <h2>Rango says...</h2>
+{% block body_block %}
+    <div>
+        <h2>Rango says...</h2>
+    </div>
     <hr>
     <div class="container">
         <div class="row">
             <div class='one-half column'>
                 <h4>{{ boldmessage }} <br /> </h4>
-                <a class="button" href="/rango/add_category/">Add Category</a>     
-                <a class="button" href="/rango/about">About | Rango</a> <br /><br />
+                <a class="button" href="{% url 'rango:add_category' %}">Add Category</a>     
+                <a class="button" href="{% url 'rango:about' %}">About | Rango</a> <br /><br />
             </div>
             <div class = 'one-half column'>
                 {% if categories %}
                 <h4>Most Liked Categories</h4>
                     <ol>
                         {% for category in categories %}
-                        <li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
+                        <li><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a>
                             | {{ category.likes }} Likes.
                         </li>
                         {% endfor %}
@@ -48,6 +50,4 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
+{% endblock %}

@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-
+{% extends 'rango/base.html' %}
 {% load staticfiles %}
 
-<html>
-    <head>
-        <title>About | Rango</title>
-        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">    
-    </head>
+{% block title_block %}
+    {% if category %}
+        {{ category.name }}
+    {% else %}
+        About 
+    {% endif %}
+{% endblock %}
 
-<body>
+{% block body_block %}
     <center><h2>About</h2>
         <p></p>
     </center>
@@ -24,7 +24,6 @@
                     plez gemme into Eggxguun... 
                 </p>
                 <a class="button button-primary" href="https://pseudocodenerd.netlify.com">poorBoi website</a>
-                <a class="button button-primary" href="/rango">Rango | Home</a>
             </div>
             <div class="one-half column">
                 <img class="u-max-full-width" src="{% static 'img/me.jpg' %}">
@@ -32,6 +31,5 @@
         </div>
     </div>
 
-</body>
+{% endblock %}
 
-</html>
