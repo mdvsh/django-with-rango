@@ -13,7 +13,7 @@
     <h3>Add a page to {{ category.name }}</h3>
     <hr>
 
-    <form id="add_page_form" method="POST" action="/rango/category/{{ category.slug }}/add_page/">
+    <form id="add_page_form" method="POST" action="{% url 'rango:add_page' category.slug %}">
         <div class="row">
             <div class="6 columns">
                 {% csrf_token %}
@@ -32,7 +32,7 @@
         </div>
     </form>
 
-<center><a class="button" href="/rango">Go Back.</a></center>
+<center><a class="button" href="{% url 'rango:index' %}">Go Back.</a></center>
 {% endblock %}
 
 

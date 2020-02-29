@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from rango.forms import CategoryForm
 from rango.forms import PageForm
 from django.urls import reverse
+from rango.forms import UserProfileForm, UserForm
 
 def index(request):
     # Query the database for a list of ALL categories currently stored.
@@ -112,3 +113,46 @@ def add_page(request, category_name_slug):
     
     context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context=context_dict)
+
+def register(request):
+    registered = False
+    # A boolean value for telling the template
+    # whether the registration was successful.
+    # Set to False initially. Code changes value to
+    # True when registration succeeds.
+    if request.method == 'POST':
+        # Attempt to grab information from the raw form information.
+        # Note that we make use of both UserForm and UserProfileForm.
+        user_form = UserForm(request.POST)
+        user_profile_form = UserProfileForm(request.POST)
+
+        # if 2 forms are valid
+        if (user_form.is_valid()) and (user_profile_form.is_valid()):
+            user  = user_form.save()
+            # hash (secure) the password
+            user.set_password(user.password)
+            user.save()
+
+            profile = user_profile_form.save(commit=False)
+            profile.user = user 
+
+            # cheecking for picture to get from input form into userprofile model
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+            registered = True 
+
+        else:
+            # invalid form params exception handling
+            print(user_form.errors, user_profile_form.errors)
+
+    else:
+        # when not HTTP POST action, render blank forms for input
+        user_form = UserForm()
+        user_profile_form = UserProfileForm()
+
+    return render(request, 'rango/register.html',
+            context={'user_form':user_form, 
+            'user_profile_form':user_profile_form, 'registered':registered})
+
