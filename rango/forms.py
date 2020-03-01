@@ -57,7 +57,7 @@ class PageForm(forms.ModelForm):
         return cleaned_data
         
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput(), label='Password')
 
     class Meta:
         model = User 

@@ -1,11 +1,10 @@
-from django.shortcuts import render
 from rango.models import Category, Page
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from rango.forms import CategoryForm
-from rango.forms import PageForm
+from django.shortcuts import redirect, render
+from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.urls import reverse
-from rango.forms import UserProfileForm, UserForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     # Query the database for a list of ALL categories currently stored.
@@ -64,6 +63,7 @@ def show_category(request, category_name_slug):
     # render response and return it to homepage
     return render(request, 'rango/category.html', context=context_dict)
 
+@login_required
 def add_category(request):
     form = CategoryForm()
 
@@ -86,6 +86,7 @@ view once the page has been created. This involves the use of the redirect() and
 reverse() helper functions to redirect the user and to lookup the appropriate URL,
 respectively.
 '''
+@login_required
 def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
@@ -156,3 +157,41 @@ def register(request):
             context={'user_form':user_form, 
             'user_profile_form':user_profile_form, 'registered':registered})
 
+def user_login(request):
+    if request.method == 'POST':
+        '''
+        when request is HTTP POST, pull all relevant info like username/pass
+        from login form using request.POST.get('<variable>')
+        '''
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Use Django's machinery to attempt to see if the username/password
+        # combination is valid - a User object is returned if it is.
+        user = authenticate(username = username, password = password)
+
+        if user:
+            # is account active ?
+            if user.is_active:
+                # if valid account i.e active we login the user
+                login(request, user)
+                return redirect(reverse('rango:index'))
+            else:
+                # inactive account no login
+                return HttpResponse('Sorry...\nYour Rango Account is disabled.')
+        else:
+            # wrong creds
+            print(f"Invalid login details : {username}, {password}")
+            return HttpResponse("Login Details Invalid. Please try Again.")
+    else:
+        # when HTTP GET
+        return render(request, 'rango/login.html')      
+
+@login_required #this is a decorator.
+def login_check(request):
+    return render(request, 'rango/login_check.html')
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('rango:index'))

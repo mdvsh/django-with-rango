@@ -34,7 +34,9 @@
         {% else %}
             <strong> No pages currently in category. </strong><br />
         {% endif %}
-        <center><a class="button" href="/rango/category/{{ category.slug }}/add_page/">Add Page.</a>
+        {% if user.is_authenticated %}
+            <center><a class="button" href="/rango/category/{{ category.slug }}/add_page/">Add Page.</a>
+        {% endif %}
         <a class="button" href="/rango">Go Back.</a>
         </center>
     </div>

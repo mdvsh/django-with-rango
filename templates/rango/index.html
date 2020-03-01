@@ -18,9 +18,13 @@
     <div class="container">
         <div class="row">
             <div class='one-half column'>
-                <h4>{{ boldmessage }} <br /> </h4>
+                {% if user.is_authenticated %}
+                    <h4>Jai Shri Ram {{ user.username }} ! </h4> <br />
+                {% else %}
+                    <h4>Jai Shri Ram Bhraata ! </h4><br />
+                {% endif %}
                 <a class="button" href="{% url 'rango:register' %}">Sign Up</a>     
-                <a class="button" href="{% url 'rango:about' %}">About | Rango</a> <br /><br />
+                <a class="button" href="{% url 'rango:login' %}">Login</a> <br /><br />
             </div>
             <div class = 'one-half column'>
                 {% if categories %}

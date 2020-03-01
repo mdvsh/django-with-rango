@@ -12,17 +12,20 @@
     <b>Thank You for Registering with Rango.<br />Start to <em>Tango </em>now.</b><br />
     <center><a class="button" href="{% url 'rango:index' %}">Return to Home.</a></center>
     {% else %}
-    <center><h4>Rango says : "Register here !"</h4></center>
+    <center><h4>Rango says "Register here !"</h4></center>
     <form id="user_form" method="POST" action="{% url 'rango:register' %}" enctype="multipart/form-data">
         <div class="row">
-            <div class="column">
-                {% csrf_token %}
-                <!--Display the 2 forms-->
+            {% csrf_token %}
+            <div class="six columns">
                 {{ user_form.as_p }}
+            </div>
+            <div class="six columns">
                 {{ user_profile_form.as_p }}
-                <input class="button-primary" type="submit" name="submit" value="Register">
             </div>
         </div>
+        <center>
+            <input class="button-primary" type="submit" name="submit" value="Register">
+        </center>
     </form>
     {% endif %}
 {% endblock %}
