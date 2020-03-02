@@ -19,12 +19,13 @@
         <div class="row">
             <div class='one-half column'>
                 {% if user.is_authenticated %}
-                    <h4>Jai Shri Ram {{ user.username }} ! </h4> <br />
+                    <h4>Jai Shri Ram {{ user.username }} ! </h4>
                 {% else %}
-                    <h4>Jai Shri Ram Bhraata ! </h4><br />
+                    <h4>Jai Shri Ram Bhraata ! </h4>
                 {% endif %}
                 <a class="button" href="{% url 'rango:register' %}">Sign Up</a>     
-                <a class="button" href="{% url 'rango:login' %}">Login</a> <br /><br />
+                <a class="button" href="{% url 'rango:login' %}">Login</a> <br />
+
             </div>
             <div class = 'one-half column'>
                 {% if categories %}

@@ -8,6 +8,9 @@
 {% block body_block %}
 <h2>Restricted Page for login_check</h2>
 
+{% if user.is_authenticated %}
+    <h5>Your username is : {{ user.username }}</h5>
+{% endif %}
 Since you're logged in, you can see this text!<br />
 Awesome ! - <i>PseudoCodeNerd</i>
 {% endblock %}
