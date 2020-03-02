@@ -19,7 +19,6 @@
         </div>-->
 
         <div>
-        <!-- Page specific content goes here -->
         {% block body_block %}
         {% endblock %}
         </div>
@@ -29,17 +28,20 @@
             <div class="row">
                 {% if user.is_authenticated %}
                 <div class="two columns">
-                    <a href="{% url 'rango:logout' %}">Logout | Rango</a>
+                    <a href="{% url 'auth_logout' %}">Logout | Rango</a>
                 </div>
                 <div class="two columns">
                     <a href="{% url 'rango:login_check' %}">testing</a>
                 </div>
+                <div class="two columns">
+                    <a href="{% url 'auth_password_change' %}">Change Password</a>
+                </div>
                 {% else %}  
                 <div class='two columns'>
-                    <a href="{% url 'rango:login' %}">Login | Rango</a>
+                    <a href="{% url 'auth_login' %}">Login | Rango</a>
                 </div> 
                 <div class="two columns">
-                    <a href="{% url 'rango:register' %}">Register | Rango</a>
+                    <a href="{% url 'registration_register' %}">Register | Rango</a>
                 </div>
                 {% endif %}
                 <div class='two columns'>

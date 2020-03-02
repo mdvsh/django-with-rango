@@ -1,9 +1,8 @@
 from rango.models import Category, Page
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from rango.forms import CategoryForm, PageForm
 from django.urls import reverse
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
@@ -124,6 +123,8 @@ def add_page(request, category_name_slug):
     
     context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context=context_dict)
+'''
+NO LONGER REQUIRED BCOZ OF DJANGO-REG-REDUX
 
 def register(request):
     registered = False
@@ -167,12 +168,14 @@ def register(request):
             context={'user_form':user_form, 
             'user_profile_form':user_profile_form, 'registered':registered})
 
+NO LONGER REQUIRED DUE TO USE OF DJANGO-REG-REDUX
+
 def user_login(request):
     if request.method == 'POST':
-        '''
+        
         when request is HTTP POST, pull all relevant info like username/pass
         from login form using request.POST.get('<variable>')
-        '''
+        
         username = request.POST.get('username')
         password = request.POST.get('password')
 
@@ -196,6 +199,7 @@ def user_login(request):
     else:
         # when HTTP GET
         return render(request, 'rango/login.html')      
+'''
 
 @login_required #this is a decorator.
 def login_check(request):

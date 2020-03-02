@@ -1,0 +1,29 @@
+{% extends 'rango/base.html' %}
+
+{% block title_block %}
+    Login
+{% endblock %} 
+
+{% block body_block %}
+
+    <h2>Login to Rango</h2>
+    <hr />
+
+    <form method="POST" action=".">
+        <div class="row">
+            {% csrf_token %}
+            <div class="six columns">
+                {{ form.as_p }}
+            </div>
+            <div class="six columns">
+                <h4>Not Registered yet ?</h4>
+                <a href="{% url 'registration_register' %}" class=" button">Register Here!</a>
+            </div>        
+          </div>
+          <center>
+            <input class="button-primary" type="submit" value="Log In"> <br />
+            <input class="button-primary" type="hidden" name="next" value="{{ next }}" />
+        </center>
+    </form>
+
+{% endblock %}
