@@ -1,59 +1,106 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 {% load rango_template_tags %}
-<html>
-    <head lang="en">
-        <meta charset="UTF-8" />
-        <title>
-            {% block title_block %}
-            {% endblock %} | Rango
-        </title>
-        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/skeleton.css' %}">    
-    </head>
-    <body>
-        <!--<div class="u-pull-left">
-            {% block sidebar_block %}
-                {% get_category_list %}
-            {% endblock %}
-        </div>-->
+<html lang="en">
 
-        <div>
-        {% block body_block %}
-        {% endblock %}
-        </div>
-        <br />
-        <hr />
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        Rango - {% block title_block %}How to Tango with Django!{% endblock %}
+    </title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <!-- Bulma Version 0.8.x-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bulma.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin.css' %}">
+</head>
+
+<body>
+
+    <!-- START NAV -->
+    <nav class="navbar is-white">
         <div class="container">
-            <div class="row">
-                {% if user.is_authenticated %}
-                <div class="two columns">
-                    <a href="{% url 'auth_logout' %}">Logout | Rango</a>
+            <div class="navbar-brand">
+                <a class="navbar-item brand-text" href="{% url 'rango:index' %}"><strong>Rango</strong></a>
+                <div class="navbar-burger burger" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-                <div class="two columns">
-                    <a href="{% url 'rango:login_check' %}">testing</a>
-                </div>
-                <div class="two columns">
-                    <a href="{% url 'auth_password_change' %}">Change Password</a>
-                </div>
-                {% else %}  
-                <div class='two columns'>
-                    <a href="{% url 'auth_login' %}">Login | Rango</a>
-                </div> 
-                <div class="two columns">
-                    <a href="{% url 'registration_register' %}">Register | Rango</a>
-                </div>
-                {% endif %}
-                <div class='two columns'>
-                    <a href="{% url 'rango:index' %}">Home | Rango</a>
-                </div> 
-                <div class='two columns'>
-                    <a href="{% url 'rango:add_category' %}">Add Category</a>
-                </div> 
-                <div class='two columns'>
-                    <a href="{% url 'rango:about' %}">About | Rango</a>
-                </div>  
             </div>
+            {% if user.is_authenticated %}
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="{% url 'rango:index' %}">Home</a>
+                    <a class="navbar-item" href="{% url 'rango:about' %}">About</a>
+                    <a class="navbar-item" href="{% url 'rango:login_check' %}">Restricted</a>
+                    <a class="navbar-item" href="{% url 'auth_password_change' %}">Change Password</a>
+                    <a class="navbar-item" href="{% url 'rango:add_category' %}">Add Category</a>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-warning" href="{% url 'auth_logout' %}">
+                                <strong>Logout</strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="{% url 'rango:index' %}">Home</a>
+                    <a class="navbar-item" href="{% url 'rango:about' %}">About</a>
+                </div>
+            
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-light" href="{% url 'registration_register' %}">
+                            <strong>Sign Up</strong>
+                            </a>
+                            <a class="button is-info" href="{% url 'auth_login' %}">Login</a>
+                        </div>
+                    </div>
+                </div>
         </div>
-    </body>
+            {% endif %}
+
+        </div>
+    </nav>
+    <!-- END NAV -->
+    <div class="container">
+        <div class="columns is-mobile">
+
+            <div class="column is-2 is-hidden-touch is-narrow">
+                <aside class="menu is-hidden-touch">
+                    <p class="menu-label">
+                        Category List
+                    </p>
+                    <ul class="menu-list">
+                    {% block sidebar_block %}
+                        {% get_category_list category %}
+                    {% endblock %}
+                    </ul>
+                </aside>
+            </div>
+
+            <div class="column is-10 is-full-touch">
+                {% block body_block %}
+                {% endblock %}
+            </div>
+
+        </div>       
+    </div>
+    
+
+</body>
+
+<script async type="text/javascript" src="{% static 'js/bulma.js' %}"></script>
+
+
 </html>

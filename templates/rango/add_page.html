@@ -10,30 +10,53 @@
 {% endblock %}
 
 {% block body_block %}
-    <h3>Add a page to {{ category.name }}</h3>
-    <hr>
+<center>
+    <h3 class="title is-3">Add a page to {{ category.name }}</h3><br>
+</center>
 
-    <form id="add_page_form" method="POST" action="{% url 'rango:add_page' category.slug %}">
-        <div class="row">
-            <div class="6 columns">
-                {% csrf_token %}
-                {% csrf_token %}
-                {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-                {% for field in form.visible_fields %}
-                    {{ fields.errors }}
-                    {{ fields.help_text }}
-                    <label>Enter Title / URL for Page : </label>
-                    {{ field }}
-                {% endfor %}
-                <input class="button-primary" type="submit" name="submit" value="Add Page">
+<!--<form id="add_page_form" method="POST" action="{% url 'rango:add_page' category.slug %}">
+    <div class="row">
+        <div class="6 columns">
+            {% csrf_token %}
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% for field in form.visible_fields %}
+                {{ fields.errors }}
+                {{ fields.help_text }}
+                <label>Enter Title / URL for Page : </label>
+                {{ field }}
+            {% endfor %}
+            <input class="button-primary" type="submit" name="submit" value="Add Page">
+        </div>
+    </div>
+</form>-->
+
+    <form action="{% url 'rango:add_page' category.slug %}" id="add_page_form" method="POST">
+        {% csrf_token %}
+        <div class="field">
+            <label for="id_name" class="label">Enter Title  : </label>
+            <div class="control has-icons-left">
+                <input type="text" class="input" placeholder="Enter title" maxlength="128" required id="id_title" name="title">
+                <span class="icon is-small is-left"><i class="fa fa-font" aria-hidden="true"></i></span>
+            </div>
+        </div>
+        <div class="field">
+            <label for="id_name" class="label">Enter URL (http://) : </label>
+            <div class="control has-icons-left">
+                <input type="url" class="input" placeholder="Enter link" maxlength="200" name="url" required id="id_url">
+                <span class="icon is-small is-left"><i class="fa fa-link" aria-hidden="true"></i></span>
+            </div>
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <input class="button is-link" type="submit" name="submit" value="Add Page">
+            </div>
+            <div class="control">
+                <a class="button is-link is-light" href="/rango">Go Back.</a>
             </div>
         </div>
     </form>
 
-<center><a class="button" href="{% url 'rango:index' %}">Go Back.</a></center>
 {% endblock %}
-
-
-

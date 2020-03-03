@@ -10,12 +10,12 @@
 {% endblock %}
 
 {% block body_block %}
+
     {% if category %}
-    <center><h2>{{ category.name }}</h2></center>
-    <hr>
+    <center><h1 class="title is-3">{{ category.name }}</h1></center><br />
     <div class="container">
         {% if pages %}
-        <table class="u-full-width">
+        <table class="table is-fullwidth is-hoverable">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -43,6 +43,8 @@
     {% else %}
         <strong> The specified category doesn't exist. </strong><br />
     {% endif %}
+
+    
 
 {% endblock %}
 
