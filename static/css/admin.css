@@ -70,16 +70,6 @@ nav.navbar {
 .hero.welcome .title, .hero.welcome .subtitle {
   color: hsl(192, 17%, 99%);
 }
-.card .content {
-  font-size: 14px;
-}
-.card-footer-item {
-  font-size: 14px;
-  font-weight: 700;
-  color: #8F99A3;
-}
-.card-footer-item:hover {
-}
 .card-table .table {
   margin-bottom: 0;
 }
