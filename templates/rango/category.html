@@ -12,8 +12,8 @@
 {% block body_block %}
 
     {% if category %}
-    <center><h1 class="title is-3">{{ category.name }}</h1></center><br />
-    <div class="container">
+    <center><h3 class="title is-3">{{ category.name }}</h3></center><br />
+    <div class="table-container">
         {% if pages %}
         <table class="table is-fullwidth is-hoverable">
             <thead>
@@ -26,7 +26,7 @@
                 {% for page in pages %}
                 <tr>
                     <td>{{ page.title }}</td>
-                    <td><a class="button button-primary" href="{{ page.url }}">Visit</a></td>
+                    <td><a href="{{ page.url }}">{{ page.url }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -34,11 +34,16 @@
         {% else %}
             <strong> No pages currently in category. </strong><br />
         {% endif %}
-        {% if user.is_authenticated %}
-            <center><a class="button" href="/rango/category/{{ category.slug }}/add_page/">Add Page.</a>
-        {% endif %}
-        <a class="button" href="/rango">Go Back.</a>
-        </center>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="field is-grouped is-grouped-centered">
+        <div class="control">
+            <a class="button is-link" href="/rango/category/{{ category.slug }}/add_page/">Add Page</a>
+        </div>
+    {% endif %}
+        <div class="control">
+            <a class="button is-link is-light" href="{% url 'rango:index' %}">Go Back</button>
+        </div>
     </div>
     {% else %}
         <strong> The specified category doesn't exist. </strong><br />

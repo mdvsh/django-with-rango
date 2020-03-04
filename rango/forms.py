@@ -32,7 +32,7 @@ class CategoryForm(forms.ModelForm):
 class PageForm(forms.ModelForm):
     title = forms.CharField(max_length=Page.TITLE_MAX_LENGTH, help_text='Please Enter Title of the Page')
     url = forms.URLField(max_length=200, help_text='Please Enter URL of the Page.')
-    views = forms.IntegerField(widget = forms.HiddenInput(), initial = 0)
+    views = forms.IntegerField(widget = forms.HiddenInput(), initial = 0, required=False)
 
     class Meta:
         # Provide an association between the ModelForm and a model

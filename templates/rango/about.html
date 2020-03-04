@@ -10,26 +10,40 @@
 {% endblock %}
 
 {% block body_block %}
-    <center><h2>About</h2>
-        <p></p>
+    <center><h2 class="title is-2">About</h2><br>
     </center>
-    <hr>
-    <h3>Madhav says...</h3>
-    <marquee>wanna get into Eggxguun sooo baddd!!!</marquee>
-    <div class="container">
-        <div class="row">
-            <div class="one-half column">
+
+    <h3 class="subtitle is-3">Madhav says...</h3>
+    </h4>
+    <div class="columns is-mobile">
+        <div class="column is-half-desktop">
+            <h4 class="subtitle is-5">    <marquee>wanna get into Eggxguun sooo baddd!!!</marquee></h4>
+
                 <p>I am a high school junior from India and a programmer, web-developer and Machine Learning Enthusiast. 
                     I’m particularly excited about probabilistic machine learning and deep neural networks. Visit my website.<br /><br />
                     plez gemme into Eggxguun... 
-                </p>
-                <a class="button button-primary" href="https://pseudocodenerd.netlify.com">poorBoi website</a><br />
-                <p>Visits: {{ visits }}</p>
-            </div>
-            <div class="one-half column">
-                <img class="u-max-full-width" src="{% static 'img/me.jpg' %}">
-            </div>
+                </p><br>
+                <div class="field is-grouped is-grouped-multiline">
+                    <div class="control">
+                      <div class="tags has-addons">
+                        <span class="tag is-dark">github</span>
+                        <span class="tag is-info">pseudocodenerd</span>
+                      </div>
+                    </div>
+                    <div class="control">
+                        <div class="tags has-addons">
+                          <span class="tag is-dark">visits</span>
+                          <span class="tag is-success">{{ visits }}</span>
+                        </div>
+                      </div>
+                </div>
         </div>
+        <div class="column-is-half is-hidden-mobile">
+            <figure class="image">
+                <img src="{% static 'img/me.jpeg' %}" alt="">
+            </figure>
+        </div>
+
     </div>
 
 {% endblock %}
