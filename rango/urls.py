@@ -28,7 +28,8 @@ urlpatterns = [
     path('category/<slug:category_name_slug>/add_page/', views.add_page, name='add_page'),
     path('login_check/', views.login_check, name='login_check'),
     #path('search/', views.search, name='search'),
-    path('goto/', views.goto_url, name='goto')
+    path('goto/', views.goto_url, name='goto'),
+    path('register_profile/', views.register_profile, name='register_profile')
 ]
 
 '''

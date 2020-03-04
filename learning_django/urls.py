@@ -14,16 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.urls import include
+from django.urls import path, include, reverse
 from rango import views
 from django.conf import settings
 from django.conf.urls.static import static
+from registration.backends.simple.views import RegistrationView
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, user):
+        return reverse('rango:register_profile')
 
 urlpatterns = [
     path('', views.index, name='index'),
     # this maps the basic URL to the index view in the rango app.
     path('rango/', include('rango.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/register/', MyRegistrationView.as_view(), name='registration_register'),
     path('accounts/', include('registration.backends.simple.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    #This overrides the existing registration_register URL mapping, provided to us in the standard, out-of-the-box django-registration-redux urls.py module, and replaces the URL we jump to with a mapping to our new class-based view.

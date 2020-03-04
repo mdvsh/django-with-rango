@@ -1,7 +1,7 @@
 from rango.models import Category, Page
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from rango.forms import CategoryForm, PageForm
+from rango.forms import CategoryForm, PageForm, UserProfileForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -209,6 +209,27 @@ def user_login(request):
         # when HTTP GET
         return render(request, 'rango/login.html')      
 '''
+
+@login_required
+def register_profile(request):
+    form = UserProfileForm()
+    
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            user_profile = form.save(commit=False)
+            user_profile.user = request.user
+            user_profile.save()
+            
+            return redirect(reverse('rango:index'))
+        else:
+            print(form.errors)
+    
+    context_dict = {'form': form}
+    return render(request, 'rango/profile_registration.html', context_dict)
+
+
 
 @login_required #this is a decorator.
 def login_check(request):
