@@ -7,21 +7,21 @@
 
 {% block body_block %}
 <center><h3 class="title is-3">Search with Rango</h3></center><br />
-        <div class="column is-5">
-            <form action="{% url 'rango:search' %}" method="POST" id="user-form">
-                {% csrf_token %}
-                <div class="field has-addons">
-                    <div class="control">
-                      <input class="input" type="text" placeholder="Find something cool" id="query" name="query" value="{{ query }}">
-                    </div>
-                    <div class="control">
-                      <button class="button is-info" type="submit" name="submit">
-                        Search
-                      </a>
-                    </div>
+    <div class="column is-5">
+        <form action="{% url 'rango:search' %}" method="POST" id="user-form">
+            {% csrf_token %}
+            <div class="field has-addons">
+                <div class="control">
+                    <input class="input" type="text" placeholder="Find something cool" id="query" name="query" value="{{ query }}">
                 </div>
-            </form>
-        </div>
+                <div class="control">
+                    <button class="button is-info" type="submit" name="submit">
+                    Search
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="column is-7 is-inline is-full-touch">
         {% if result_list %}
             {% for result in result_list %}

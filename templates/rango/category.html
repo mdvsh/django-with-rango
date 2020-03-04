@@ -20,13 +20,28 @@
                 <tr>
                     <th>Title</th>
                     <th>Link</th>
+                    <th>Views</th>
                 </tr>
             </thead>
             <tbody>
                 {% for page in pages %}
                 <tr>
                     <td>{{ page.title }}</td>
-                    <td><a href="{{ page.url }}">{{ page.url }}</a></td>
+                    <td><a href="{% url 'rango:goto' %}?page_id={{ page.id }}">{{ page.url }}</a></td>
+                    <td>
+                        <div class="tags has-addons">
+                            {% if page.views > 1 %}
+                                <span class="tag is-dark">views</span>
+                                <span class="tag is-success">{{ page.views }}</span>
+                            {% elif page.views == 1 %}
+                                <span class="tag is-dark">view</span>
+                                <span class="tag is-success">{{ page.views }}</span>
+                            {% else %}
+                                <span class="tag is-dark">views</span>
+                                <span class="tag is-warning">0</span>
+                            {% endif %}
+                        </div>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -35,6 +50,46 @@
             <strong> No pages currently in category. </strong><br />
         {% endif %}
     </div>
+
+    {% if category %}
+        {% if user.is_authenticated %}
+        <div class="column is-5">
+            <form action="{% url 'rango:show_category' category.slug %}" method="POST" id="user-form">
+                {% csrf_token %}
+                <div class="field has-addons">
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Find something cool" id="query" name="query" value="{{ query }}">
+                    </div>
+                    <div class="control">
+                        <button class="button is-info" type="submit" name="submit">
+                        Search
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="column is-7 is-inline is-full-touch">
+            {% if result_list %}
+                {% for result in result_list %}
+                <div class="card ">
+                    <header class="card-header has-background-info">
+                        <p class="card-header-title has-text-white">{{ result.title|safe|escape }}</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <p class="subitile is-4">{{ result.summary|safe|escape }}</p>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{{ result.link }}" class="card-footer-item">Visit</a>
+                    </footer>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endif %}
+
     {% if user.is_authenticated %}
     <div class="field is-grouped is-grouped-centered">
         <div class="control">

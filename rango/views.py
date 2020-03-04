@@ -21,7 +21,6 @@ def index(request):
     model to retrieve the top five categories. the hyphen order it in descending
     '''
     context_dict = {}
-    context_dict['boldmessage'] = 'Desh ke gaddaron ko...\n Goli maaron saalon ko !!!'
     context_dict['categories'] = category_list
     context_dict['pages'] = pages_list
 
@@ -56,7 +55,7 @@ def show_category(request, category_name_slug):
         category = Category.objects.get(slug=category_name_slug)
         # Retrieve all of the associated pages.
         # The filter() will return a list of page objects or an empty list.
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category).order_by('-views')
         # Adds our results list to the template context under name pages.
         context_dict['pages'] = pages
         # We also add the category object from
@@ -70,6 +69,15 @@ def show_category(request, category_name_slug):
         context_dict['category'] = None
         context_dict['pages'] = None
     
+    # search functionality as part of exercise
+    query = ''
+    if request.method == 'POST':
+        if request.method == 'POST':
+            query = request.POST['query'].strip()
+
+            if query:
+                context_dict['result_list'] = run_query(query)
+                context_dict['query'] = query
     # render response and return it to homepage
     return render(request, 'rango/category.html', context=context_dict)
 
@@ -239,6 +247,8 @@ def visitor_cookie_handler(request):
     # Update/set the visits cookie
     request.session['visits'] = visits
 
+'''
+this decommissioning is part of chapter 15
 def search(request):
     result_list = []
     query = ''
@@ -249,4 +259,20 @@ def search(request):
         if query:
             result_list = run_query(query)
     
-    return render(request, 'rango/search.html', {'result_list': result_list, 'query': query})
+    return render(request, 'rango/search.html', {'result_list': result_list, 'query': query})'''
+
+# for tracking page clickthroughs
+def goto_url(request):
+    if request.method == 'GET':
+        page_id = request.GET.get('page_id')
+        
+        try:
+            the_page = Page.objects.get(id=page_id)
+        except Page.DoesNotExist:
+            return redirect(reverse('rango:index'))
+        
+        the_page.views = the_page.views + 1
+        the_page.save()
+        
+        return redirect(the_page.url)
+    return redirect(reverse('rango:index'))
