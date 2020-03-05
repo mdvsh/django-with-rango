@@ -1,0 +1,78 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Profile / {{ selected_user.username }}
+{% endblock %}
+
+{% block body_block %}
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">{{ selected_user.username }}'s Profile</h1>
+            <h2 class="subtitle">Please find below the details of your profile that we recieved.</h2>
+        </div>
+    </div>
+</section>
+<br>
+<section class="round-tiles">
+    <div class="tile is-ancestor">
+        <div class="tile is-4 is-parent">
+            <div class="tile is-child box">
+                <p class="title is-4">Profile Picture</p><br>
+                <figure class="image is-1by1">
+                    <img src="{{ MEDIA_URL }}{{ user_profile.picture }}" alt="{{ selected_user.username }}'s profile image">
+                </figure>
+            </div>
+        </div>
+        <div class="tile is-parent">
+            <div class="tile is-child box">
+                <p class="title is-4">Other Details</p><br>
+                {% if selected_user == user %}
+                
+                <form method="POST" action="."enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="field">
+                        <label for="id_website" class="label">Website : </label>
+                        <div class="control has-icons-left">
+                            {% for error in field.errors %}
+                                <p class="help is-danger">{{ error }}</p>
+                            {% endfor %}
+                            <input class="input" type="url" placeholder="Enter website if got one !" name="website" id="id_website" maxlength="200" value="{{ user_profile.website }}">
+                            <span class="icon is-small is-left"><i class="fa fa-globe"></i></span>
+                        </div>
+                    </div>
+            
+                    <div class="field">
+                        <div class="file has-name is-right is-success">
+                            <label class="file-label">
+                              <input class="file-input" type="file" name="picture" accept="image/*" id="id_picture">
+                              <span class="file-cta"><span class="file-icon"><i class="fa fa-upload"></i></span>
+                                <span class="file-label">Choose a file…</span>
+                              </span>
+                            </label>
+                          </div>
+                    </div>
+        
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-link" type="submit">Update Profile</button>
+                        </div>
+                    </div>
+
+                </form> <!--
+                <form method="post" action="." enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Update" />
+                </form>-->
+                {% else %}
+                <p class="is-title is-4">{{ selected_user.username }}'s Website</p>
+                <a href="{{ user_profile.website }}">{{ user_profile.website }}</a>   
+                {% endif %}        
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

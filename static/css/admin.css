@@ -82,4 +82,6 @@ nav.navbar {
   font-size: 25px;
   font-weight: 600;
 }
-
+.round-tiles .tile {
+  border-radius: 5px;
+}

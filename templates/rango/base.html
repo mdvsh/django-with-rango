@@ -43,6 +43,9 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
+                            <a class="button is-success" href="{% url 'rango:profile' user.username %}">
+                                <strong>Profile</strong>
+                            </a>
                             <a class="button is-warning" href="{% url 'auth_logout' %}">
                                 <strong>Logout</strong>
                             </a>

@@ -28,8 +28,9 @@ urlpatterns = [
     path('category/<slug:category_name_slug>/add_page/', views.AddPageView.as_view(), name='add_page'),
     path('login_check/', views.LoginCheckView.as_view(), name='login_check'),
     #path('search/', views.search, name='search'),
-    path('goto/', views.GoToUrl.as_view(), name='goto'),
-    path('register_profile/', views.RegisterProfileView.as_view(), name='register_profile')
+    path('goto/', views.GotoView.as_view(), name='goto'),
+    path('register_profile/', views.RegisterProfileView.as_view(), name='register_profile'),
+    path('profile/<username>/', views.ProfileView.as_view(), name='profile')
 ]
 
 '''

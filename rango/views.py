@@ -1,9 +1,10 @@
-from rango.models import Category, Page
+from rango.models import Category, Page, UserProfile
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from rango.forms import CategoryForm, PageForm, UserProfileForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from datetime import datetime
 from rango.bing_search import run_query
 from django.views import View
@@ -41,101 +42,113 @@ class AboutView(View):
 
 class ShowCategoryView(View):
     def create_context_dict(self, category_name_slug):
+        """
+        A helper method that was created to demonstarte the power of class-based views.
+        You can reuse this method in the get() and post() methods!
+        """
         context_dict = {}
+
         try:
             category = Category.objects.get(slug=category_name_slug)
             pages = Page.objects.filter(category=category).order_by('-views')
+
             context_dict['pages'] = pages
             context_dict['category'] = category
         except Category.DoesNotExist:
-            context_dict['category'] = None
             context_dict['pages'] = None
+            context_dict['category'] = None
+        
         return context_dict
-
+    
     def get(self, request, category_name_slug):
         context_dict = self.create_context_dict(category_name_slug)
-        return render(request, 'rango/category_html', context_dict)
-
+        return render(request, 'rango/category.html', context_dict)
+    
     @method_decorator(login_required)
     def post(self, request, category_name_slug):
         context_dict = self.create_context_dict(category_name_slug)
         query = request.POST['query'].strip()
-        
+
         if query:
             context_dict['result_list'] = run_query(query)
             context_dict['query'] = query
         
-        return render(request, 'rango/add_category.html', context_dict)
-
+        return render(request, 'rango/category.html', context_dict)
 
 class AddCategoryView(View):
     @method_decorator(login_required)
     def get(self, request):
         form = CategoryForm()
-        return render(request, 'rango/add_category.html', {'form':form})
-
+        return render(request, 'rango/add_category.html', {'form': form})
+    
     @method_decorator(login_required)
     def post(self, request):
-        form = CategoryForm()
+        form = CategoryForm(request.POST)
+
         if form.is_valid():
             form.save(commit=True)
             return redirect(reverse('rango:index'))
         else:
             print(form.errors)
-        return render(request, 'rango/add_category.html', {'form':form})
+        
+        return render(request, 'rango/add_category.html', {'form': form})
 
 class AddPageView(View):
-    def get_cat_name(self, category_name_slug):
+    def get_category_name(self, category_name_slug):
+        """
+        A helper method that was created to demonstrate the power of class-based views.
+        You can reuse this method in the get() and post() methods!
+        """
         try:
             category = Category.objects.get(slug=category_name_slug)
         except Category.DoesNotExist:
             category = None
+        
         return category
     
+    @method_decorator(login_required)
     def get(self, request, category_name_slug):
         form = PageForm()
-        category = self.get_cat_name(category_name_slug)
+        category = self.get_category_name(category_name_slug)
 
         if category is None:
             return redirect(reverse('rango:index'))
-        context_dict = {'form':form, 'category':category}
-
+        
+        context_dict = {'form': form, 'category': category}
         return render(request, 'rango/add_page.html', context_dict)
-
+    
     @method_decorator(login_required)
     def post(self, request, category_name_slug):
         form = PageForm(request.POST)
-        category = self.get_cat_name(category_name_slug)
+        category = self.get_category_name(category_name_slug)
 
         if category is None:
             return redirect(reverse('rango:index'))
-
+        
         if form.is_valid():
             page = form.save(commit=False)
             page.category = category
             page.views = 0
             page.save()
-            
-            return redirect(reverse('rango:show_category'), 
-                kwargs={'category_name_slug':category_name_slug})
 
+            return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
         else:
             print(form.errors)
-
-        context_dict = {'form':form, 'category':category}
+        
+        context_dict = {'form': form, 'category': category}
         return render(request, 'rango/add_page.html', context=context_dict)
-
+        
 class RegisterProfileView(View):
-
     @method_decorator(login_required)
     def get(self, request):
         form = UserProfileForm()
-        context_dict = {'form':form}
+        context_dict = {'form': form}
         return render(request, 'rango/profile_registration.html', context_dict)
-
+    
     @method_decorator(login_required)
     def post(self, request):
         form = UserProfileForm(request.POST, request.FILES)
+
         if form.is_valid():
             user_profile = form.save(commit=False)
             user_profile.user = request.user
@@ -143,23 +156,66 @@ class RegisterProfileView(View):
 
             return redirect(reverse('rango:index'))
         else:
-            print(form.errors())
+            print(form.errors)
         
-        context_dict = {'form':form}
+        context_dict = {'form': form}
         return render(request, 'rango/profile_registration.html', context_dict)
+
+class ProfileView(View):
+    def get_user_details(self, username):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return None
+        
+        user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        form = UserProfileForm({'website': user_profile.website,
+                                'picture': user_profile.picture})
+        
+        return (user, user_profile, form)
+    
+    @method_decorator(login_required)
+    def get(self, request, username):
+        try:
+            (user, user_profile, form) = self.get_user_details(username)
+        except TypeError:
+            return redirect(reverse('rango:index'))
+        
+        context_dict = {'user_profile': user_profile,
+                        'selected_user': user,
+                        'form': form}
+        
+        return render(request, 'rango/profile.html', context_dict)
+    
+    @method_decorator(login_required)
+    def post(self, request, username):
+        try:
+            (user, user_profile, form) = self.get_user_details(username)
+        except TypeError:
+            return redirect(reverse('rango:index'))
+        
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect(reverse('rango:profile',
+                                    kwargs={'username': username}))
+        else:
+            print(form.errors)
+        
+        context_dict = {'user_profile': user_profile,
+                        'selected_user': user,
+                        'form': form}
+        
+        return render(request, 'rango/profile.html', context_dict)
 
 class LoginCheckView(View):
     @method_decorator(login_required)
     def get(self, request):
-        return render(request, 'rango/login_check.htmk')
-
-@login_required
-def user_logout(request):
-    logout(request)
-    return redirect(reverse('rango:index'))
+        return render(request, 'rango/login_check.html')
 
 # for tracking page clickthroughs
-class GoToUrl(View):
+class GotoView(View):
     def get(self, request):
         page_id = request.GET.get('page_id')
         try:
