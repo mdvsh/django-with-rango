@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Profile / {{ selected_user.username }}
+    Profile/{{ selected_user.username }}
 {% endblock %}
 
 {% block body_block %}
@@ -20,9 +20,15 @@
         <div class="tile is-4 is-parent">
             <div class="tile is-child box">
                 <p class="title is-4">Profile Picture</p><br>
+                {% if user_profile.picture %}
                 <figure class="image is-1by1">
                     <img src="{{ MEDIA_URL }}{{ user_profile.picture }}" alt="{{ selected_user.username }}'s profile image">
                 </figure>
+                {% else %}
+                <figure class="image is-1by1">
+                    <img src="https://place-hold.it/400x400&text=Picture%20unavailable" alt="{{ selected_user.username }}'s profile image">
+                </figure>
+                {% endif %}
             </div>
         </div>
         <div class="tile is-parent">

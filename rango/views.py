@@ -137,7 +137,7 @@ class AddPageView(View):
         
         context_dict = {'form': form, 'category': category}
         return render(request, 'rango/add_page.html', context=context_dict)
-        
+
 class RegisterProfileView(View):
     @method_decorator(login_required)
     def get(self, request):
@@ -227,6 +227,12 @@ class GotoView(View):
         the_page.save()
         
         return redirect(the_page.url)        
+
+class ListProfilesView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        profiles = UserProfile.objects.all()
+        return render(request, 'rango/list_profiles.html', {'user_profile_list':profiles})
 
 # a safe way to handle cookies is via the server 
 # this is a helper session cookie something function

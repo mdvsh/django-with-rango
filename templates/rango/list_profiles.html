@@ -1,0 +1,42 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    User Profiles
+{% endblock %}
+
+{% block body_block %}
+    <center><h3 class="title is-3">Users Registered with Rango</h3></center><br />
+
+    {% if user_profile_list %}
+        {% for list_user in user_profile_list %}
+        <article class="media">
+            <figure class="media-left">
+            <p class="image is-64x64">
+                {% if list_user.picture %}
+                    <img src="{{ MEDIA_URL }}{{ list_user.picture }}" width="64" height="64" alt="Profile picture for {{ list_user.username }}">
+                {% else %}
+                    <img src="https://place-hold.it/64x64" alt="Profile picture for {{ list_user.username }}">
+                {% endif %}
+            </p>
+            </figure>
+            <div class="media-content">
+            <div class="content">
+                <p>
+                <strong>{{ list_user.user.username }}</strong>
+                <br>
+                {% if list_user.website %}
+                    <a href="{{ list_user.website }}">
+                        <span class="icon is-small"><i class="fa fa-globe"></i></span>
+                        {{ list_user.website }}
+                    </a>
+                {% else %}
+                    <p> <b>Website not available.</b> </p>
+                {% endif %}
+                </p>
+            </div>
+            </div>
+        </article>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
