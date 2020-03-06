@@ -67,7 +67,7 @@ nav.navbar {
   background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);
   background: linear-gradient(to right, #5B86E5, #36D1DC);
 }
-.hero.welcome .title, .hero.welcome .subtitle {
+.hero.welcome.title, .hero.welcome.subtitle {
   color: hsl(192, 17%, 99%);
 }
 .card-table .table {

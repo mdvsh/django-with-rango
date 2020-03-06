@@ -12,8 +12,23 @@
 {% block body_block %}
 
     {% if category %}
-    <center><h3 class="title is-3">{{ category.name }}</h3></center><br />
-    <div class="table-container">
+    <section class="hero is-small ">
+        <center>
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title is-2">{{ category.name }} </h1>
+                    <h2 class="subtitle is-3">
+                        <span class="tag is-danger is-medium">
+                            <span id="like_count">{{ category.likes }} </span>
+                            <span class="icon is-medium"><i class="fa fa-heart"></i></span>       
+                        </span>
+                    </h2>
+                </div>
+            </div>
+        </center>
+    </section>
+    <br>
+    <div class="table-container" id="page-listing">
         {% if pages %}
         <table class="table is-fullwidth is-hoverable">
             <thead>
@@ -77,11 +92,12 @@
                     </header>
                     <div class="card-content">
                         <div class="content">
-                            <p class="subitile is-4">{{ result.summary|safe|escape }}</p>
+                            <p class="subitile is-3">{{ result.summary|safe|escape }}</p>
                         </div>
                     </div>
                     <footer class="card-footer">
                         <a href="{{ result.link }}" class="card-footer-item">Visit</a>
+                        <a class="card-footer-item rango_add_page" data-categoryid="{{ category.id }}" data-title="{{ result.title }}" data-url="{{ result.link }}">Add</a>
                     </footer>
                 </div>
                 {% endfor %}
@@ -90,15 +106,17 @@
         {% endif %}
     {% endif %}
 
-    {% if user.is_authenticated %}
     <div class="field is-grouped is-grouped-centered">
-        <div class="control">
-            <a class="button is-link" href="/rango/category/{{ category.slug }}/add_page/">Add Page</a>
-        </div>
-    {% endif %}
-        <div class="control">
-            <a class="button is-link is-light" href="{% url 'rango:index' %}">Go Back</button>
-        </div>
+        {% if user.is_authenticated %}
+            <div class="control">
+                <button class="button is-danger is-rounded" id="like_button" data-categoryid="{{ category.id }}" type="button" >
+                    <span class="icon"><i class="fa fa-heart"></i></span><span>Like Category</span>
+                </button>
+            </div>
+            <!-- <div class="control">
+                <a class="button is-link is-rounded" href="/rango/category/{{ category.slug }}/add_page/">Add Page</a>
+            </div> -->
+        {% endif %}
     </div>
     {% else %}
         <strong> The specified category doesn't exist. </strong><br />

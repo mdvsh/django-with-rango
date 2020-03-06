@@ -31,7 +31,10 @@ urlpatterns = [
     path('goto/', views.GotoView.as_view(), name='goto'),
     path('register_profile/', views.RegisterProfileView.as_view(), name='register_profile'),
     path('profile/<username>/', views.ProfileView.as_view(), name='profile'),
-    path('profiles/', views.ListProfilesView.as_view(), name='profiles')
+    path('profiles/', views.ListProfilesView.as_view(), name='profiles'),
+    path('like_category/', views.LikeCategoryView.as_view(), name='like_category'),
+    path('suggest/', views.CategorySuggestionView.as_view(), name='suggest'),
+    path('search_add_page/', views.SearchAddPage.as_view(), name='search_add_page')
 ]
 
 '''

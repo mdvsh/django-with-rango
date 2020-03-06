@@ -85,7 +85,14 @@
                     <p class="menu-label">
                         Category List
                     </p>
-                    <ul class="menu-list">
+                    <div class="control has-icons-left">
+                        <input class="input is-small is-rounded is-hovered" type="search" placeholder="Search a category..." id="search-input">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-search"></i>
+                          </span>
+                    </div>
+                    <br>
+                    <ul class="menu-list" id="categories-listing">
                     {% block sidebar_block %}
                         {% get_category_list category %}
                     {% endblock %}
@@ -104,7 +111,10 @@
 
 </body>
 
+<script src='{% static "js/jquery-3.3.1.min.js" %}' type="text/javascript" crossorigin="anonymous"></script>
 <script async type="text/javascript" src="{% static 'js/bulma.js' %}"></script>
+<script async type="text/javascript" src="{% static 'js/rango-jquery.js' %}"></script>
+<script async type="text/javascript" src="{% static 'js/rango-ajax.js' %}"></script>
 
 
 </html>
