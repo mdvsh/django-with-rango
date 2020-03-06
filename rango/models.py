@@ -17,6 +17,8 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Category, self).save(*args, **kwargs)
+        if self.views < 0:
+            self.views = 0
 
     class Meta:
         verbose_name_plural = "Categories" # for fixing 'Categorys'
