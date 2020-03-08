@@ -28,6 +28,10 @@ class IndexView(View):
             # Render request and send it to the home-page.
             return response
 
+class BaseView(View):
+    def get(self, request):
+        return render(request, 'rango/base.html')
+
 class AboutView(View):
     def get(self, request):
             print(request.method)

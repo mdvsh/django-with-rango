@@ -21,6 +21,7 @@ app_name = 'rango'
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
+    path('base/', views.BaseView.as_view(), name='base'),
     path('about/', views.AboutView.as_view(), name='about'),
     path('category/<slug:category_name_slug>/',
         views.ShowCategoryView.as_view(), name='show_category'),

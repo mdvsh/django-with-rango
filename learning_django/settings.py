@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rango',
-    'registration'
+    'registration',
+    'pwa'
 ]
 
 MIDDLEWARE = [
@@ -145,4 +146,32 @@ LOGIN_REDIRECT_URL = 'rango:index'
 # The page users are directed to if they are not logged in.
 # This was set in a previous chapter. The registration package uses this, too.
 LOGIN_URL = 'auth_login'
-
+PWA_SERVICE_WORKER_PATH = os.path.join(STATIC_DR, 'js/serviceworker.js')
+PWA_APP_NAME = 'Rango'
+PWA_APP_DESCRIPTION = "A 'cool' Web Directory for all your nerdy links..."
+PWA_APP_THEME_COLOR = '#508be4'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/img/rango-logo.png',
+        'sizes': '500x500'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/img/rango-logo.png',
+        'sizes': '500x500'
+    }
+]   
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': '/static/img/splash-640x1136.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'

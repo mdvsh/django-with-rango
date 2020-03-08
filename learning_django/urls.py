@@ -26,6 +26,7 @@ class MyRegistrationView(RegistrationView):
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
+    path('', include('pwa.urls')),
     # this maps the basic URL to the index view in the rango app.
     path('rango/', include('rango.urls')),
     path('admin/', admin.site.urls),
