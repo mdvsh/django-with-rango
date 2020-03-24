@@ -148,7 +148,10 @@ LOGIN_REDIRECT_URL = 'rango:index'
 # The page users are directed to if they are not logged in.
 # This was set in a previous chapter. The registration package uses this, too.
 LOGIN_URL = 'auth_login'
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 PWA_SERVICE_WORKER_PATH = os.path.join(STATIC_DR, 'js/serviceworker.js')
 PWA_APP_NAME = 'Rango'
 PWA_APP_DESCRIPTION = "A 'cool' Web Directory for all your nerdy links..."
@@ -169,7 +172,11 @@ PWA_APP_ICONS_APPLE = [
         'src': '/static/img/rango-logo.png',
         'sizes': '500x500'
     }
+<<<<<<< HEAD
 ]
+=======
+]   
+>>>>>>> master
 PWA_APP_SPLASH_SCREEN = [
     {
         'src': '/static/img/splash-640x1136.png',
@@ -177,5 +184,9 @@ PWA_APP_SPLASH_SCREEN = [
     }
 ]
 PWA_APP_DIR = 'ltr'
+<<<<<<< HEAD
 PWA_APP_LANG = 'en-US'
 
+=======
+PWA_APP_LANG = 'en-US'
+>>>>>>> master
