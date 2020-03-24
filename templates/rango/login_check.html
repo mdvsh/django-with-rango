@@ -1,0 +1,18 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Restricted Page
+{% endblock %}
+
+{% block body_block %}
+<center>
+    <h2 class="title is-2">Restricted Page for login_check</h2><br>
+
+    {% if user.is_authenticated %}
+        <h5 class="subtitle is-4">Your username is : {{ user.username }}</h5>
+    {% endif %}
+    <p class="is-medium">Since you're logged in, you can see this text!</p>
+</center>
+
+{% endblock %}

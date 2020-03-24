@@ -1,0 +1,45 @@
+<!-- THIS IS NOW REDUNDANT SINCE USERS CAN NOW ADD PAGES VIA A SEARCH RESULT -->
+
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {% if category %}
+        {{ category.name }}
+    {% else %}
+        Add Page 
+    {% endif %}
+{% endblock %}
+
+{% block body_block %}
+<center>
+    <h3 class="title is-3">Add a page to {{ category.name }}</h3><br>
+</center>
+
+    <form action="{% url 'rango:add_page' category.slug %}" id="page_form" method="POST">
+        {% csrf_token %}
+        <div class="field">
+            <label for="id_name" class="label">Enter Title  : </label>
+            <div class="control has-icons-left">
+                <input type="text" class="input" placeholder="Enter title" maxlength="128" required id="id_title" name="title">
+                <span class="icon is-small is-left"><i class="fa fa-font" aria-hidden="true"></i></span>
+            </div>
+        </div>
+        <div class="field">
+            <label for="id_name" class="label">Enter URL (https://) : </label>
+            <div class="control has-icons-left">
+                <input type="url" class="input" placeholder="Enter link" maxlength="200" name="url" required id="id_url">
+                <span class="icon is-small is-left"><i class="fa fa-link" aria-hidden="true"></i></span>
+            </div>
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <input class="button is-link" type="submit" name="submit" value="Add Page">
+            </div>
+            <div class="control">
+                <a class="button is-link is-light" href="/rango">Go Back.</a>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

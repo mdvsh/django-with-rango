@@ -1,0 +1,35 @@
+{% if pages %}
+<table class="table is-fullwidth is-hoverable">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Link</th>
+            <th>Views</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for page in pages %}
+        <tr>
+            <td>{{ page.title }}</td>
+            <td><a href="{% url 'rango:goto' %}?page_id={{ page.id }}">{{ page.url }}</a></td>
+            <td>
+                <div class="tags has-addons">
+                    {% if page.views > 1 %}
+                        <span class="tag is-dark">views</span>
+                        <span class="tag is-success">{{ page.views }}</span>
+                    {% elif page.views == 1 %}
+                        <span class="tag is-dark">view</span>
+                        <span class="tag is-success">{{ page.views }}</span>
+                    {% else %}
+                        <span class="tag is-dark">views</span>
+                        <span class="tag is-warning">0</span>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <strong> No pages currently in category. </strong><br />
+{% endif %}

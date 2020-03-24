@@ -1,0 +1,44 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Search
+{% endblock %}
+
+{% block body_block %}
+<center><h3 class="title is-3">Search with Rango</h3></center><br />
+    <div class="column is-5">
+        <form action="{% url 'rango:search' %}" method="POST" id="user-form">
+            {% csrf_token %}
+            <div class="field has-addons">
+                <div class="control">
+                    <input class="input" type="text" placeholder="Find something cool" id="query" name="query" value="{{ query }}">
+                </div>
+                <div class="control">
+                    <button class="button is-info" type="submit" name="submit">
+                    Search
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="column is-7 is-inline is-full-touch">
+        {% if result_list %}
+            {% for result in result_list %}
+            <div class="card ">
+                <header class="card-header has-background-info">
+                    <p class="card-header-title has-text-white">{{ result.title|safe|escape }}</p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <p class="subitile is-4">{{ result.summary|safe|escape }}</p>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <a href="{{ result.link }}" class="card-footer-item">Visit</a>
+                  </footer>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

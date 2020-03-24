@@ -1,0 +1,82 @@
+{% extends 'rango/base.html' %}
+
+{% block title_block %}
+    Login
+{% endblock %} 
+
+{% block body_block %}
+<center>
+    <h2 class="title is-3">Login to Rango</h2>
+    <br />
+</center>
+    
+    <div class="columns">
+        <div class="column is-mobile">
+            <div class="column is-half is-offset-one-quarter">
+                <form action="." method="POST">
+                    {% csrf_token %}
+                    <div class="field">
+                        <label for="inputUsername" class="label">Username : </label>
+                        <div class="control has-icons-left">
+                            <input class="input is-success" type="text" placeholder="Enter Username" name="username" id="id_username" required autofocus>
+                            <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="inputPassword" class="label">Password : </label>
+                        <div class="control has-icons-left">
+                            <input type="password" class="input" id="id_password" name="password" placeholder="Enter Password" required>
+                            <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-info" type="submit" value="Submit">Log In</button>
+                        </div>
+                    </div>
+                </form>
+            
+            </div>
+        </div>
+    </div>
+
+
+    <!--
+    <div class="field">
+        <label class="label">Username : </label>
+        <p class="control has-icons-left has-icons-right">
+            {% csrf_token %}
+          <input class="input form-control" type="text" placeholder="Username" id="username">
+          <span class="icon is-small is-left">
+            <i class="fa fa-envelope"></i>
+          </span>
+          <span class="icon is-small is-right">
+            <i class="fa fa-check"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <label class="label">Password : </label>
+        <p class="control has-icons-left">
+          <input class="input form-control" type="password" placeholder="Password" id="id_password" name="password">
+          <span class="icon is-small is-left">
+            <i class="fa fa-lock"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control">
+          <button class="button is-success" type="submit" value="Submit">
+            Login
+          </button>
+        </p>
+      </div>
+
+    
+    <div class="column is-half">
+        <h4 class="title is-4">Not Registered yet ?</h4>
+        <a href="{% url 'registration_register' %}" class="button is-link">Register Here!</a>
+    </div>-->
+
+
+{% endblock %}
