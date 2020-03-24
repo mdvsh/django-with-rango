@@ -85,3 +85,6 @@ nav.navbar {
 .round-tiles .tile {
   border-radius: 5px;
 }
+.twitter-tweet {
+width: 100% !important;
+}

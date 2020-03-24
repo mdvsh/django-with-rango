@@ -28,6 +28,10 @@ class IndexView(View):
             # Render request and send it to the home-page.
             return response
 
+class BaseView(View):
+    def get(self, request):
+        return render(request, 'rango/base.html')
+
 class AboutView(View):
     def get(self, request):
             print(request.method)
@@ -57,13 +61,13 @@ class ShowCategoryView(View):
         except Category.DoesNotExist:
             context_dict['pages'] = None
             context_dict['category'] = None
-        
+
         return context_dict
-    
+
     def get(self, request, category_name_slug):
         context_dict = self.create_context_dict(category_name_slug)
         return render(request, 'rango/category.html', context_dict)
-    
+
     @method_decorator(login_required)
     def post(self, request, category_name_slug):
         context_dict = self.create_context_dict(category_name_slug)
@@ -72,7 +76,7 @@ class ShowCategoryView(View):
         if query:
             context_dict['result_list'] = run_query(query)
             context_dict['query'] = query
-        
+
         return render(request, 'rango/category.html', context_dict)
 
 class AddCategoryView(View):
@@ -80,7 +84,7 @@ class AddCategoryView(View):
     def get(self, request):
         form = CategoryForm()
         return render(request, 'rango/add_category.html', {'form': form})
-    
+
     @method_decorator(login_required)
     def post(self, request):
         form = CategoryForm(request.POST)
@@ -90,7 +94,7 @@ class AddCategoryView(View):
             return redirect(reverse('rango:index'))
         else:
             print(form.errors)
-        
+
         return render(request, 'rango/add_category.html', {'form': form})
 
 class AddPageView(View):
@@ -103,9 +107,9 @@ class AddPageView(View):
             category = Category.objects.get(slug=category_name_slug)
         except Category.DoesNotExist:
             category = None
-        
+
         return category
-    
+
     @method_decorator(login_required)
     def get(self, request, category_name_slug):
         form = PageForm()
@@ -113,10 +117,10 @@ class AddPageView(View):
 
         if category is None:
             return redirect(reverse('rango:index'))
-        
+
         context_dict = {'form': form, 'category': category}
         return render(request, 'rango/add_page.html', context_dict)
-    
+
     @method_decorator(login_required)
     def post(self, request, category_name_slug):
         form = PageForm(request.POST)
@@ -124,7 +128,7 @@ class AddPageView(View):
 
         if category is None:
             return redirect(reverse('rango:index'))
-        
+
         if form.is_valid():
             page = form.save(commit=False)
             page.category = category
@@ -134,7 +138,7 @@ class AddPageView(View):
             return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
         else:
             print(form.errors)
-        
+
         context_dict = {'form': form, 'category': category}
         return render(request, 'rango/add_page.html', context=context_dict)
 
@@ -144,7 +148,7 @@ class RegisterProfileView(View):
         form = UserProfileForm()
         context_dict = {'form': form}
         return render(request, 'rango/profile_registration.html', context_dict)
-    
+
     @method_decorator(login_required)
     def post(self, request):
         form = UserProfileForm(request.POST, request.FILES)
@@ -157,7 +161,7 @@ class RegisterProfileView(View):
             return redirect(reverse('rango:index'))
         else:
             print(form.errors)
-        
+
         context_dict = {'form': form}
         return render(request, 'rango/profile_registration.html', context_dict)
 
@@ -167,33 +171,33 @@ class ProfileView(View):
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             return None
-        
+
         user_profile = UserProfile.objects.get_or_create(user=user)[0]
         form = UserProfileForm({'website': user_profile.website,
                                 'picture': user_profile.picture})
-        
+
         return (user, user_profile, form)
-    
+
     @method_decorator(login_required)
     def get(self, request, username):
         try:
             (user, user_profile, form) = self.get_user_details(username)
         except TypeError:
             return redirect(reverse('rango:index'))
-        
+
         context_dict = {'user_profile': user_profile,
                         'selected_user': user,
                         'form': form}
-        
+
         return render(request, 'rango/profile.html', context_dict)
-    
+
     @method_decorator(login_required)
     def post(self, request, username):
         try:
             (user, user_profile, form) = self.get_user_details(username)
         except TypeError:
             return redirect(reverse('rango:index'))
-        
+
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
 
         if form.is_valid():
@@ -202,11 +206,11 @@ class ProfileView(View):
                                     kwargs={'username': username}))
         else:
             print(form.errors)
-        
+
         context_dict = {'user_profile': user_profile,
                         'selected_user': user,
                         'form': form}
-        
+
         return render(request, 'rango/profile.html', context_dict)
 
 class LoginCheckView(View):
@@ -222,11 +226,11 @@ class GotoView(View):
             the_page = Page.objects.get(id=page_id)
         except Page.DoesNotExist:
             return redirect(reverse('rango:index'))
-        
+
         the_page.views = the_page.views + 1
         the_page.save()
-        
-        return redirect(the_page.url)        
+
+        return redirect(the_page.url)
 
 class ListProfilesView(View):
     @method_decorator(login_required)
@@ -275,7 +279,7 @@ class CategorySuggestionView(View):
         if len(category_list) == 0:
             category_list = Category.objects.order_by('-likes')
 
-        return render(request, 'rango/categories.html', {'categories':category_list})        
+        return render(request, 'rango/categories.html', {'categories':category_list})
 
 # for AJAX Exercise, add a new view to handle adding page to category from a search result
 class SearchAddPage(View):
@@ -291,13 +295,13 @@ class SearchAddPage(View):
             return HttpResponse('category not found.')
         except ValueError:
             return HttpResponse('bad category ID.')
-        
+
         p = Page.objects.get_or_create(category=category, title=title, url=url)
 
         pages = Page.objects.filter(category=category).order_by('-views')
         return render(request, 'rango/page_listing.html', {'pages': pages})
 
-# a safe way to handle cookies is via the server 
+# a safe way to handle cookies is via the server
 # this is a helper session cookie something function
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
@@ -336,6 +340,6 @@ def search(request):
 
         if query:
             result_list = run_query(query)
-    
+
     return render(request, 'rango/search.html', {'result_list': result_list, 'query': query})'''
 

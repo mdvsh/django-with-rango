@@ -6,7 +6,7 @@
     {% if category %}
         {{ category.name }}
     {% else %}
-        Homepage 
+        Homepage
     {% endif %}
 {% endblock %}
 
@@ -19,8 +19,8 @@
                 <h1 class="title">Hello, {{ user.username }}.</h1>
                 <h2 class="subtitle">I hope you are having a great day!</h2>
                 {% else %}
-                <h1 class="title">Jai Shri Ram Bhraata.</h1>
-                <h2 class="subtitle">Aap ka din kushal mangal ho !</h2>
+                <h1 class="title">Welcome to Rango !</h1>
+                <h2 class="subtitle">I hope you are having a great day!</h2>
                 {% endif %}
             </div>
         </div>
@@ -49,7 +49,7 @@
                     <p class="title has-text-centered">Most Viewed Pages</p>
                     <ol class="subtitle_ol">
                         {% for page in pages %}
-                        <li><a href="{{ page.url }}">{{ page.title }}</a> | {{ page.views }} Views.</li>                        
+                        <li><a href="{{ page.url }}">{{ page.title }}</a> | {{ page.views }} Views.</li>
                         {% endfor %}
                     </ol>
                     {% else %}
